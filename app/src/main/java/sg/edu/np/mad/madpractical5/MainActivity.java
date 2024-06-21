@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvName, tvDescription;
     private User currentUser;
     private DBHandler dbHandler;
+    private Button buttonBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         tvName = findViewById(R.id.tvName);
         tvDescription = findViewById(R.id.tvDescription);
         buttonFollow = findViewById(R.id.btnFollow);
+        buttonBack = findViewById(R.id.btnBack);
 
         // Get user information from intent
         Intent intent = getIntent();
@@ -42,6 +45,23 @@ public class MainActivity extends AppCompatActivity {
 
         // Setup follow button click listener
         setupFollowButton();
+
+        // Setup back button click listener
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
+
+        // Handle back press using OnBackPressedCallback
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                setResult(RESULT_OK); // Set the result to OK
+                finish(); // Close the activity
+            }
+        });
     }
 
     private void setupFollowButton() {
@@ -60,11 +80,5 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateButtonMessageText() {
         buttonFollow.setText(currentUser.getFollowed() ? "Unfollow" : "Follow");
-    }
-
-    @Override
-    public void onBackPressed() {
-        setResult(RESULT_OK); // Set the result to OK
-        super.onBackPressed();
     }
 }
