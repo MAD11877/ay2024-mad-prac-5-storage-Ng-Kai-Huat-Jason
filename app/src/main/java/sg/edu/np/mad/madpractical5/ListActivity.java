@@ -2,7 +2,7 @@ package sg.edu.np.mad.madpractical5;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -17,7 +17,7 @@ import java.util.List;
 public class ListActivity extends AppCompatActivity {
     private List<User> list;
     private UserAdapter userAdapter;
-    private DBHandler dbHandler;
+    private DatabaseHandler databaseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +30,9 @@ public class ListActivity extends AppCompatActivity {
             return insets;
         });
 
-        dbHandler = new DBHandler(this);
+        databaseHandler = new DatabaseHandler(this);
         // Initialize DBHandler and fetch users
-        list = dbHandler.getUsers();
+        list = databaseHandler.getUsers();
 
         // Set up RecyclerView
         RecyclerView recyclerView = findViewById(R.id.recycler_main);
@@ -48,7 +48,7 @@ public class ListActivity extends AppCompatActivity {
         if (requestCode == 1 && resultCode == RESULT_OK) {
             // Refresh the user list
             list.clear();
-            list.addAll(dbHandler.getUsers());
+            list.addAll(databaseHandler.getUsers());
             userAdapter.notifyDataSetChanged();
         }
     }

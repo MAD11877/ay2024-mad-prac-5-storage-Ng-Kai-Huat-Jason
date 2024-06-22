@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonFollow;
     private TextView tvName, tvDescription;
     private User currentUser;
-    private DBHandler dbHandler;
+    private DatabaseHandler databaseHandler;
     private Button buttonBack;
 
     @Override
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dbHandler = new DBHandler(this);
+        databaseHandler = new DatabaseHandler(this);
 
         // Initialize views
         tvName = findViewById(R.id.tvName);
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 // Toggle follow state
                 currentUser.setFollowed(!currentUser.getFollowed());
                 updateButtonMessageText();
-                dbHandler.updateUser(currentUser);
+                databaseHandler.updateUser(currentUser);
                 String toastMessage = currentUser.getFollowed() ? "Following" : "Not Following";
                 Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
             }
